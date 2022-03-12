@@ -11,7 +11,9 @@
         <option value="id">Post ID</option>
     </select> 
 
-    <div class='posts' v-for="post in posts" :key="post.id">
+    <input type="text" placeholder="Search" v-model="searchQuery">
+
+    <div class='posts' v-for="post in searchList" :key="post.id">
         <div class="post-item">            
             <h3> {{ post.title }} </h3>
             <h3> {{ post.id }} </h3>
@@ -58,22 +60,24 @@ export default {
                body: 'sdf',
                title: 'sdfsdfsdfsdf',
            },
-           selectedSort: ''
+           selectedSort: '',
+           searchQuery: ''
        }
     },
     watch: {
-        selectedSort(sortOption) {
-            this.posts.sort((post1, post2) => {
-                if (sortOption === 'id') {
-                    return post1.id - post2.id
-                } else {
-                    return post1[sortOption]?.localeCompare(post2[sortOption])                        
-                }
-            })
-        }
+        
     },
     computed: {
-
+        sortedPosts() {
+            if (this.selectedSort === 'id') {
+                return [...this.posts].sort((post1, post2) => post1.id - post2.id)
+            } else {
+                return [...this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
+            }
+        },               
+        searchList() {
+            return this.sortedPosts.filter(post => post.title.includes(this.searchQuery))
+        }
     },
     methods: {
         async getPosts() {
@@ -112,14 +116,10 @@ export default {
                userId: 1
            }
            this.posts.splice(id-1, 1, updatedPost);
-           console.log(this.posts)
         },
         toggleModalBox() {
             this.isModalBoxShow = !this.isModalBoxShow;
         },
-        sortPosts(e) {
-            console.log(e)
-        }
     },
     mounted() {
         this.getPosts()

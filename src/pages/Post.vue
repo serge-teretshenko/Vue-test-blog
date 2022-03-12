@@ -6,23 +6,21 @@
         <p> {{ $route.params.id }} </p>     
     </div>
     <div class='comments' v-for="comment in comments" :key="comment.id">
-        <div class="comment-item">            
-            <h3> {{ comment.name }} </h3>
-            <h4> {{ comment.email }} </h4>            
-            <p> {{ comment.body }} </p>
-            <custom-button>Upd</custom-button>
-        </div>
+        <Comment 
+            :comment="comment" 
+            @edit="editComment"
+            @delete="deleteComment" />
     </div>
 </div>
 </template>
 
 <script>
-import CustomButton from '../shared/Button'
+import Comment from '@/components/Comment'
 
 export default {
     name: 'PostList',
     components: {
-        CustomButton
+        Comment
     },
     data() {
        return {
@@ -46,8 +44,11 @@ export default {
                 .then((response) => response.json());
             this.comments = comments;
         },
-        deletePost(id) {
-           console.log(id)
+        editComment(id) {
+           console.log('edit', id)
+        },
+        deleteComment(id) {
+           this.comments = this.comments.filter(comment => comment.id !== id)
         }
     },
     mounted() {

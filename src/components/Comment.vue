@@ -3,7 +3,13 @@
     <h3> {{ comment.name }} </h3>
     <h4> {{ comment.email }} </h4>            
     <p> {{ comment.body }} </p>
-    <custom-button>Upd</custom-button>  
+    <custom-button @click="editComment(comment.id)">Edit</custom-button>
+    <custom-button 
+        @click="deleteComment(comment.id)"
+        class="delete-button">
+            Delete
+    </custom-button>
+
 </div>
 </template>
 
@@ -12,39 +18,30 @@ import CustomButton from '../shared/Button'
 
 export default {
     name: 'PostList',
+    props: {
+        comment: {
+            id: null,
+            title: '',
+            body: '',
+            email: ''
+        }
+    },
     components: {
         CustomButton
     },
     data() {
        return {
-           post: {
-               id: null,
-               title: '',
-               body: '',
-               userId: 1
-           },
-           comments: []
+          
        }
     },
     methods: {
-        async getFullPost() {
-            const post = await fetch(`https://jsonplaceholder.typicode.com/posts/${this.$route.params.id}`)
-                .then((response) => response.json());
-            this.post = post;  
+        editComment(id) {
+            this.$emit('edit', id)
         },
-        async getComments() {
-            const comments = await fetch(`https://jsonplaceholder.typicode.com/posts/${this.$route.params.id}/comments`)
-                .then((response) => response.json());
-            this.comments = comments;
-        },
-        deletePost(id) {
-           console.log(id)
+        deleteComment(id) {
+           this.$emit('delete', id)
         }
     },
-    mounted() {
-        this.getFullPost()
-        this.getComments()
-    }
 }
 </script>
 
