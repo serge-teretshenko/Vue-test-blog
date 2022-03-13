@@ -24,6 +24,6 @@ npm run build
 npm run lint
 ```
 
-### Customize configuration
+### Deployed version
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+https://serge-teretshenko.github.io/vue-test-blog/
