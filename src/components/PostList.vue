@@ -15,8 +15,8 @@
 
     <h3 class="posts-title">{{ pageTitle }}</h3>
 
-    <div class='posts' v-for="post in searchResult" :key="post.id">
-        <div class="post">            
+    <div class='posts' v-if="posts.length > 0">
+        <div class="post" v-for="post in filteredPosts" :key="post.id">            
             <h3 class="post__title">
                 <span> Post {{ post.id }}: </span>
                 {{ post.title }}
@@ -33,6 +33,9 @@
             </div>
         </div>
     </div>
+    <div v-else>
+        <no-page text="No Posts"></no-page>
+    </div>
 
     <modal-box :show="isModalBoxShow" @hide="toggleModalBox">
         <PostForm @create="addPost" :post="post" />    
@@ -44,6 +47,7 @@
 <script>
 import CustomButton from '@/shared/Button'
 import ModalBox from '@/shared/ModalBox'
+import NoPage from '@/shared/NoPage'
 import PostForm from '@/components/PostForm.vue'
 
 export default {
@@ -52,6 +56,7 @@ export default {
         PostForm,
         CustomButton,
         ModalBox,
+        NoPage
     },
     props: { 
         postsPerPage: Number,
@@ -83,8 +88,8 @@ export default {
                 return [...this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
             }
         },               
-        searchResult() {
-            return this.sortedPosts.filter(post => post.title.includes(this.searchQuery))
+        filteredPosts() {
+            return this.sortedPosts.filter(post => post.title.toLowerCase().includes(this.searchQuery.toLowerCase()))
         }
     },
     methods: {
@@ -194,6 +199,5 @@ export default {
         .sort-field, .search-field { 
             width: 100%;
         }
-
     }
 </style>

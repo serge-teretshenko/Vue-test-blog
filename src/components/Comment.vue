@@ -43,6 +43,7 @@ export default {
     .comment {
         text-align: left;
         position: relative;
+        margin-bottom: 50px;
 
         &__name {
             padding: 5px;

@@ -31,10 +31,15 @@
 
         <div class="comments-wrapper">
             <h4>Comments</h4>
-            <div class='comment-wrapper' v-for="comment in comments" :key="comment.id">
+            <div class='comment-wrapper' v-if="comments.length > 0">
                 <Comment 
-                    :comment="comment" 
+                    :comment="comment"
+                    v-for="comment in comments" 
+                    :key="comment.id"
                     @delete="deleteComment" />
+            </div>
+            <div v-else>
+                <no-page text="No Comments"></no-page>
             </div>
             <div class="comment-form">
                 <h4>Add Comment:</h4>
@@ -49,7 +54,7 @@
                     <textarea name="body" rows="4" v-model="comment.body"></textarea>
                 </form>
                 <custom-button class="save-button" @click="addComment">
-                    Save Post
+                    Add Comment
                 </custom-button>
 
             </div>
@@ -62,12 +67,14 @@
 import Comment from '@/components/Comment'
 import Header from '@/components/Header'
 import CustomButton from '@/shared/Button'
+import NoPage from '@/shared/NoPage'
 
 export default {
     name: 'PostPage',
     components: {
         Comment,
         Header,
+        NoPage,
         CustomButton
     },
     data() {
@@ -176,9 +183,6 @@ export default {
     .comments-wrapper {
         padding: 5px 25px;
         border-top: 3px solid #c3c3c3
-    }
-    .comment-wrapper {
-        margin-bottom: 45px;
     }
     .comment-form {
         form {
