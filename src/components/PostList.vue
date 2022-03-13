@@ -16,30 +16,26 @@
     <h3 class="posts-title">Latest Posts</h3>
 
     <div class='posts' v-for="post in searchList" :key="post.id">
-        <div class="post-item">            
-            <h3>
+        <div class="post">            
+            <h3 class="post__title">
                 <span> Post {{ post.id }}: </span>
                 {{ post.title }}
             </h3>
-            <p> {{ post.body }} </p>
+            <p class="post__text"> {{ post.body }} </p>
 
             <div class="post-buttons">
                 <custom-button 
-                    class="update-button"
+                    class="edit-button"
                     @click="$router.push(`/posts/${post.id}`)">
                         Open Post
                 </custom-button>
-                <custom-button 
-                    @click="updatePost(post.id)">
-                        Update Post
-                </custom-button>
-                <custom-button @click="deletePost(post.id)" class='img-button'></custom-button>
+                <custom-button @click="deletePost(post.id)" class='delete-button'></custom-button>
             </div>
         </div>
     </div>
 
     <modal-box :show="isModalBoxShow" @hide="toggleModalBox">
-        <PostForm @create="addPost" />    
+        <PostForm @create="addPost" :post="post" />    
     </modal-box>
 
 </div>
@@ -62,6 +58,8 @@ export default {
            posts: [],
            isModalBoxShow: false,
            post: {
+               userId: 1,
+               id: null,
                body: '',
                title: '',
            },
@@ -94,10 +92,9 @@ export default {
            const newPost = await fetch('https://jsonplaceholder.typicode.com/posts', {
                 method: 'POST',
                 body: JSON.stringify({
-                    id: this.posts[this.posts.length - 1].id + 1 ?? 1,
+                    userId: 1,
                     title: post.title,
                     body: post.body,
-                    userId: post.userId,
                 }),
                 headers: {
                     'Content-type': 'application/json; charset=UTF-8',
@@ -112,15 +109,6 @@ export default {
                 method: 'DELETE',
             });
             this.posts = this.posts.filter(post => post.id !== id)
-        },
-        updatePost(id) {
-           const updatedPost = {
-               id,
-               title: this.post.title,
-               body: this.post.body,
-               userId: 1
-           }
-           this.posts.splice(id-1, 1, updatedPost);
         },
         toggleModalBox() {
             this.isModalBoxShow = !this.isModalBoxShow;
@@ -138,18 +126,6 @@ export default {
         border: 10px solid #c3c3c3;
         padding: 5px 10px 10px;
     }
-    h3 {
-        font-size: 20px;
-        text-align: left;
-
-        span {
-            font-weight: 400;
-            color: #a94443;
-        }
-    }
-    p{
-        text-align: left;
-    }
     .posts-action {
         display: flex;
         justify-content: space-between;
@@ -160,10 +136,8 @@ export default {
         height: 36px;
         margin: 10px 0 10px;
         font-size: 14px;
-        line-height: 1.25;
-    }
-    .search-field {
-        height: 30px;
+        padding: 0 10px;
+        box-sizing: border-box;
     }
     .posts-title {
         border-bottom: 1px solid #999999;
@@ -171,11 +145,25 @@ export default {
         text-align: center;
         margin-bottom: 10px;
     }
-    .post-item {
+    .post {
         padding: 5px 0;
         margin-bottom: 15px;
         border-bottom: 1px solid #999;
         position: relative;
+
+        &__title { 
+            font-size: 20px;
+            text-align: left;
+            padding-right: 30px;
+            
+            span { 
+                font-weight: 400;
+                color: #a94443; }
+            }
+        
+        &__text { 
+            text-align: left;
+        }
     }
     .post-buttons {
         text-align: right;
@@ -183,11 +171,24 @@ export default {
     .custom-button {
         margin: 10px;
     }
-    .img-button {
+    .delete-button {
         position: absolute;
         top: 0;
         right: 0;
         margin: 0;
     }
+    @media screen and (max-width: 600px) {
+        .posts-action {
+            flex-direction: column;
+            justify-content: left;
+            padding: 15px;
+        }
+        .custom-button {
+            margin: 0 0 15px;
+        }
+        .sort-field, .search-field { 
+            width: 100%;
+        }
 
+    }
 </style>

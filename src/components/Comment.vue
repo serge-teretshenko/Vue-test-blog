@@ -1,13 +1,11 @@
 <template>
-<div class="comment-wrapper">          
-    <h3> {{ comment.name }} </h3>
-    <h4> {{ comment.email }} </h4>            
-    <p> {{ comment.body }} </p>
-    <custom-button @click="editComment(comment.id)">Edit</custom-button>
+<div class="comment">          
+    <h3 class="comment__name"> {{ comment.name }} </h3>
+    <h4 class="comment__email"> {{ comment.email }} </h4>            
+    <p class="comment__body"> {{ comment.body }} </p>
     <custom-button 
         @click="deleteComment(comment.id)"
         class="delete-button">
-            Delete
     </custom-button>
 
 </div>
@@ -45,12 +43,38 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     h3 {
         font-size: 18px;
     }
     .post-item {
         padding: 5px 0;
         border-bottom: 1px solid #999;
+    }
+    .comment {
+        text-align: left;
+        position: relative;
+
+        &__name {
+            padding: 5px;
+            font-size: 14px;
+            font-weight: 400;
+            background: #555;
+            color: #fff;
+            display: inline-block;
+        }
+
+        &__email {
+            font-size: 12px;
+            margin: 10px;
+            padding: 0;
+            margin: 15px 0;
+            color: #a94443;
+        }
+    }
+    .delete-button {
+        position: absolute;
+        top: 0;
+        right: 0;
     }
 </style>

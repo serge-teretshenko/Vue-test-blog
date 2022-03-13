@@ -41,6 +41,7 @@ a {
 .main-wrapper {
   width: 90%;
   max-width: 800px;
+  min-width: 320px;
   margin: 0 auto;
 }
 </style>

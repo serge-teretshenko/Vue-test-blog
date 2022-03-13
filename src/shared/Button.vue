@@ -19,7 +19,7 @@ export default {
         padding: 10px 10px 6px;
         cursor: pointer;
     }
-    .img-button {
+    .delete-button {
         width: 24px;
         height: 24px;
         background: #a94443 url('../assets/delete-icon.svg') 100% 50% no-repeat; 
@@ -37,13 +37,12 @@ export default {
         background-color: transparent;
         height: 36px;
     }
-    .delete-button {
-        background: #a94443 url('../assets/delete-icon.svg') 100% 50% no-repeat;
-        border: 1px solid #a94443;
-        background-size: contain;
+    .edit-button {
+        background-color: #0074cc;
+        border: 1px solid #0074cc;
     }
-    .update-button {
-        background: green;
-        border: 1px solid green;
+    .save-button {
+        background-color: #42b983; 
+        border: 1px solid #42b983;
     }
 </style>

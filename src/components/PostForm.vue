@@ -1,15 +1,16 @@
 <template>
     <form class='post-form'>
+        <h3>Create new Post</h3>
         <div class="input-wrapper">
             <input v-bind:value="post.title"
                 @input="post.title = $event.target.value" 
                 type="text" placeholder="Title" />
             <textarea v-bind:value="post.body" 
                 @input="post.body = $event.target.value" 
-                type="text" placeholder="Text" />
+                type="text" placeholder="Text" cols="4" />
         </div>
     
-        <custom-button @click.prevent="createPost" class='update-button'>Create Post</custom-button>
+        <custom-button @click.prevent="createPost" class='update-button'>Add Post</custom-button>
     </form>
 </template>
 
@@ -22,28 +23,30 @@ export default {
         CustomButton
     },
     props: {
-        modelValue: String
+        modelValue: String,
     },
     data() {
        return {
            post: {
-               id: null,
-               body: '',
+               userId: 1,
+               id: Number,
                title: '',
-               userId: 1
+               body: '',
            }
        }
     },
     methods: {
        createPost() {
            this.post = {
-               id: 101,
+               id: null,
                title: this.post.title,
                body: this.post.body
            }
            this.$emit('create', this.post)
 
            this.post = {
+               userId: 1,
+               id: null,
                title: '',
                body: ''
            }
@@ -59,10 +62,10 @@ export default {
         flex-direction: column;
         padding: 15px 0 5px;
 
-        input {
-            max-width: 250px;
+        input, textarea {
+            width: 80%;
             padding: 5px 10px;
-            margin: 0 auto 10px;
+            margin: 0 auto 15px;
         }
     }
 </style>
