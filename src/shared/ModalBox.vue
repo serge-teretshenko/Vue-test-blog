@@ -30,12 +30,15 @@ export default {
        left: 0;
        right: 0;
        position: fixed;
-       background: rgba(0,0,0,0.6);
+       background: rgba(0,0,0,0.75);
+       display: flex;
 
        &__content {
            padding: 20px;
-           width: 400px;
+           width: 250px;
+           height: 130px;
            background: #fff;
+           margin: auto;
        }
    }
 </style>

@@ -18,7 +18,7 @@
 import Comment from '@/components/Comment'
 
 export default {
-    name: 'PostList',
+    name: 'PostPage',
     components: {
         Comment
     },

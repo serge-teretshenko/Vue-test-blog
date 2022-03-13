@@ -1,11 +1,16 @@
 import MainPage from "@/pages/MainPage"
-import Post from "@/pages/Post"
+import AllPosts from "@/pages/AllPostsPAge"
+import Post from "@/pages/PostPage"
 import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
     {
         path: "/",
         component: MainPage
+    },
+    {
+        path: '/posts',
+        component: AllPosts
     },
     {
         path: "/posts/:id",

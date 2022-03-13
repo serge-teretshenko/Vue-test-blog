@@ -4,7 +4,7 @@
             <input v-bind:value="post.title"
                 @input="post.title = $event.target.value" 
                 type="text" placeholder="Title" />
-            <input v-bind:value="post.body" 
+            <textarea v-bind:value="post.body" 
                 @input="post.body = $event.target.value" 
                 type="text" placeholder="Text" />
         </div>

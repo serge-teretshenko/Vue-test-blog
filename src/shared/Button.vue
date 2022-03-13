@@ -10,22 +10,36 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     .custom-button {
         font-size: 14px;
-        border: 1px solid #333;
-        background: blueviolet;
-        border-radius: 3px;
+        font-family: 'Josefin Sans', Verdana, Geneva, Tahoma, sans-serif;
+        border: 1px solid #333333;
         color: #ffffff;
-        padding: 5px 30px 5px 10px;
+        padding: 10px 10px 6px;
         cursor: pointer;
     }
+    .img-button {
+        width: 24px;
+        height: 24px;
+        background: #a94443 url('../assets/delete-icon.svg') 100% 50% no-repeat; 
+        border: 1px solid #a94443; 
+        background-size: contain;
+        border-radius: 3px;
+
+        &:hover {
+            background-color: #8a2d2b;
+        }
+    }
+    .create-button {
+        text-transform: uppercase;
+        color: #333333;
+        background-color: transparent;
+        height: 36px;
+    }
     .delete-button {
-        background: red;
-        border: 1px solid red;
-        background-image: url('../assets/delete-icon.svg');
-        background-repeat: no-repeat;
-        background-position: 100% 50%;
+        background: #a94443 url('../assets/delete-icon.svg') 100% 50% no-repeat;
+        border: 1px solid #a94443;
         background-size: contain;
     }
     .update-button {

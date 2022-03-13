@@ -1,7 +1,7 @@
 <template>
   <div class="main-wrapper">
-    <Header title="Vue-Blog" subTitle="Testaufgabe mit Vue.js and JSONPlaceholder"/>
-    <PostList />
+    <Header title="Vue-Blog"/>
+    <PostList postsPerPage="5" />
   </div>
 </template>
 

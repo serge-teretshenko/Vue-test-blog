@@ -1,22 +1,26 @@
 <template>
 <div class="posts-wrapper">
-    <modal-box :show="isModalBoxShow" @hide="toggleModalBox">
-        <PostForm @create="addPost" />    
-    </modal-box>
-    <custom-button @click="toggleModalBox">Create Post</custom-button>
+   <div class="posts-action">
+       <custom-button class="custom-button create-button" @click="toggleModalBox">Create Post</custom-button>
 
-    <select v-model="selectedSort" @change="sortPosts">
-        <option value="title">Post Title</option>  
-        <option value="body">Post Text</option>  
-        <option value="id">Post ID</option>
-    </select> 
+        <select class="sort-field" v-model="selectedSort" @change="sortPosts">
+            <option value="" disabled selected>Sort by</option>
+            <option value="title">Post Title</option>
+            <option value="body">Post Text</option>  
+            <option value="id">Post ID</option>
+        </select> 
 
-    <input type="text" placeholder="Search" v-model="searchQuery">
+        <input class="search-field" type="text" placeholder="Search" v-model="searchQuery">
+    </div>
+
+    <h3 class="posts-title">Latest Posts</h3>
 
     <div class='posts' v-for="post in searchList" :key="post.id">
         <div class="post-item">            
-            <h3> {{ post.title }} </h3>
-            <h3> {{ post.id }} </h3>
+            <h3>
+                <span> Post {{ post.id }}: </span>
+                {{ post.title }}
+            </h3>
             <p> {{ post.body }} </p>
 
             <div class="post-buttons">
@@ -29,14 +33,15 @@
                     @click="updatePost(post.id)">
                         Update Post
                 </custom-button>
-                <custom-button 
-                    @click="deletePost(post.id)"
-                    class='delete-button'>
-                        Delete Post
-                </custom-button>
+                <custom-button @click="deletePost(post.id)" class='img-button'></custom-button>
             </div>
         </div>
     </div>
+
+    <modal-box :show="isModalBoxShow" @hide="toggleModalBox">
+        <PostForm @create="addPost" />    
+    </modal-box>
+
 </div>
 </template>
 
@@ -57,8 +62,8 @@ export default {
            posts: [],
            isModalBoxShow: false,
            post: {
-               body: 'sdf',
-               title: 'sdfsdfsdfsdf',
+               body: '',
+               title: '',
            },
            selectedSort: '',
            searchQuery: ''
@@ -127,23 +132,62 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    .posts-wrapper {
+        background-color: #ffffff;
+        border: 10px solid #c3c3c3;
+        padding: 5px 10px 10px;
+    }
     h3 {
-        font-size: 18px;
+        font-size: 20px;
         text-align: left;
+
+        span {
+            font-weight: 400;
+            color: #a94443;
+        }
     }
     p{
         text-align: left;
     }
+    .posts-action {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 25px;
+    }
+    .sort-field, .search-field {
+        width: 125px;
+        height: 36px;
+        margin: 10px 0 10px;
+        font-size: 14px;
+        line-height: 1.25;
+    }
+    .search-field {
+        height: 30px;
+    }
+    .posts-title {
+        border-bottom: 1px solid #999999;
+        text-transform: uppercase;
+        text-align: center;
+        margin-bottom: 10px;
+    }
     .post-item {
         padding: 5px 0;
+        margin-bottom: 15px;
         border-bottom: 1px solid #999;
+        position: relative;
     }
     .post-buttons {
         text-align: right;
     }
     .custom-button {
         margin: 10px;
+    }
+    .img-button {
+        position: absolute;
+        top: 0;
+        right: 0;
+        margin: 0;
     }
 
 </style>
