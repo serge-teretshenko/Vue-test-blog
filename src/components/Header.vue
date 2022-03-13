@@ -13,9 +13,6 @@
 
 export default {
     name: 'HeaderComponent',
-    components: {
-        
-    },
     props: {
         title: String,
         subTitle: String,

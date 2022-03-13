@@ -1,6 +1,6 @@
 <template>
 <div>
-    <Header title="Vue" subTitle="skdfj" /> 
+    <Header title="Vue-Blog" subTitle="Testaufgabe mit Vue.js and JSONPlaceholder" /> 
     <div class="post-wrapper">
         <div v-show="!isEditMode">
             <h3> {{ post.title }} </h3>
@@ -34,8 +34,24 @@
             <div class='comment-wrapper' v-for="comment in comments" :key="comment.id">
                 <Comment 
                     :comment="comment" 
-                    @edit="editComment"
                     @delete="deleteComment" />
+            </div>
+            <div class="comment-form">
+                <h4>Add Comment:</h4>
+                <form>
+                    <h5>Name:</h5>
+                    <input type="text" v-model="comment.name">
+
+                    <h5>Email:</h5>
+                    <input type="text" v-model="comment.email">
+
+                    <h5>Comment:</h5>
+                    <textarea name="body" rows="4" v-model="comment.body"></textarea>
+                </form>
+                <custom-button class="save-button" @click="addComment">
+                    Save Post
+                </custom-button>
+
             </div>
         </div>
     </div>
@@ -63,19 +79,24 @@ export default {
                userId: 1
            },
            comments: [],
+           comment: {
+               name: '',
+               email: '',
+               body: ''
+           },
            isEditMode: false
        }
     },
     methods: {
         async getFullPost() {
-            const post = await fetch(`https://jsonplaceholder.typicode.com/posts/${this.$route.params.id}`)
-                .then((response) => response.json());
-            this.post = post;  
+            await fetch(`https://jsonplaceholder.typicode.com/posts/${this.$route.params.id}`)
+                .then((response) => response.json())
+                .then((json) => this.post = json); 
         },
         async getComments() {
-            const comments = await fetch(`https://jsonplaceholder.typicode.com/posts/${this.$route.params.id}/comments`)
-                .then((response) => response.json());
-            this.comments = comments;
+            await fetch(`https://jsonplaceholder.typicode.com/posts/${this.$route.params.id}/comments`)
+                .then((response) => response.json())
+                .then((json) => this.comments = json);
         },
         editPost() { 
             this.isEditMode = true;
@@ -95,8 +116,24 @@ export default {
             }).then((response) => response.json());
             this.isEditMode = false;
         },
-        editComment(id) {
-           console.log('edit', id)
+        addComment() { 
+            fetch('https://jsonplaceholder.typicode.com/posts/1/comments', {
+                method: 'POST',
+                body: JSON.stringify({ 
+                    userId: 1,
+                    name: this.comment.name,
+                    email: this.comment.email,
+                    body: this.comment.body
+                }),
+                headers: { 'Content-type': 'application/json; charset=UTF-8', },
+            })
+                .then((response) => response.json())
+                .then((newComment) => this.comments.push(newComment));
+                
+                this.comment.name = '';
+                this.comment.email = '';
+                this.comment.body = '';
+                
         },
         deleteComment(id) {
            this.comments = this.comments.filter(comment => comment.id !== id)
@@ -109,7 +146,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
     h3 {
         font-size: 24px;
         padding: 20px;
@@ -142,5 +179,22 @@ export default {
     }
     .comment-wrapper {
         margin-bottom: 45px;
+    }
+    .comment-form {
+        form {
+            display: grid;
+            grid-template-columns: 1fr 7fr;
+            align-items: center;
+
+            h5 {
+                align-self: start;
+            }
+            input, textarea { 
+                width: 100%
+            }    
+        }
+        button {
+            margin: 15px 0;
+        }
     }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div class="main-wrapper">
-    <Header title="Vue-Blog" subTitle="Testaufgabe mit Vue.js and JSONPlaceholder"/>
-    <PostList />
+    <Header title="Vue-Blog" subTitle="Testaufgabe mit Vue.js and JSONPlaceholder" />
+    <PostList postsPerPage="5" actionPanel=true pageTitle="Latest Posts" />
   </div>
 </template>
 
@@ -14,9 +14,6 @@ export default {
   components: {
     Header,
     PostList
-  },
-  props: {
-    msg: String
   }
 }
 </script>

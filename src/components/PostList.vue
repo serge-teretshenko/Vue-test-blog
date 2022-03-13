@@ -1,6 +1,6 @@
 <template>
 <div class="posts-wrapper">
-   <div class="posts-action">
+   <div class="action-panel" v-show="this.actionPanel">
        <custom-button class="custom-button create-button" @click="toggleModalBox">Create Post</custom-button>
 
         <select class="sort-field" v-model="selectedSort" @change="sortPosts">
@@ -10,12 +10,12 @@
             <option value="id">Post ID</option>
         </select> 
 
-        <input class="search-field" type="text" placeholder="Search" v-model="searchQuery">
+        <input class="search-field" type="text" placeholder="Search by Title" v-model="searchQuery">
     </div>
 
-    <h3 class="posts-title">Latest Posts</h3>
+    <h3 class="posts-title">{{ pageTitle }}</h3>
 
-    <div class='posts' v-for="post in searchList" :key="post.id">
+    <div class='posts' v-for="post in searchResult" :key="post.id">
         <div class="post">            
             <h3 class="post__title">
                 <span> Post {{ post.id }}: </span>
@@ -53,6 +53,11 @@ export default {
         CustomButton,
         ModalBox,
     },
+    props: { 
+        postsPerPage: Number,
+        actionPanel: Boolean,
+        pageTitle: String
+    },
     data() {
        return {
            posts: [],
@@ -64,7 +69,7 @@ export default {
                title: '',
            },
            selectedSort: '',
-           searchQuery: ''
+           searchQuery: '',
        }
     },
     watch: {
@@ -78,18 +83,18 @@ export default {
                 return [...this.posts].sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
             }
         },               
-        searchList() {
+        searchResult() {
             return this.sortedPosts.filter(post => post.title.includes(this.searchQuery))
         }
     },
     methods: {
         async getPosts() {
-            const res = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=10')
-                .then((response) => response.json());
-            this.posts = res;  
+            await fetch(`https://jsonplaceholder.typicode.com/posts?_limit=${this.postsPerPage}`)
+                .then((response) => response.json())
+                .then((posts) => this.posts = posts);
         },
         async addPost(post) {
-           const newPost = await fetch('https://jsonplaceholder.typicode.com/posts', {
+            await fetch('https://jsonplaceholder.typicode.com/posts', {
                 method: 'POST',
                 body: JSON.stringify({
                     userId: 1,
@@ -100,8 +105,8 @@ export default {
                     'Content-type': 'application/json; charset=UTF-8',
                 },
             })
-            .then((response) => response.json());
-            this.posts.unshift(newPost);
+            .then((response) => response.json())
+            .then((newPost) => this.posts.unshift(newPost));
             this.toggleModalBox();
         },
         deletePost(id) {
@@ -126,7 +131,7 @@ export default {
         border: 10px solid #c3c3c3;
         padding: 5px 10px 10px;
     }
-    .posts-action {
+    .action-panel {
         display: flex;
         justify-content: space-between;
         margin-bottom: 25px;
@@ -143,7 +148,7 @@ export default {
         border-bottom: 1px solid #999999;
         text-transform: uppercase;
         text-align: center;
-        margin-bottom: 10px;
+        margin: 15px 0;
     }
     .post {
         padding: 5px 0;
@@ -178,7 +183,7 @@ export default {
         margin: 0;
     }
     @media screen and (max-width: 600px) {
-        .posts-action {
+        .action-panel {
             flex-direction: column;
             justify-content: left;
             padding: 15px;

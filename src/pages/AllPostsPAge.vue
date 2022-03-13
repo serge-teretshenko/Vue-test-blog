@@ -1,7 +1,7 @@
 <template>
   <div class="main-wrapper">
-    <Header title="Vue-Blog"/>
-    <PostList postsPerPage="5" />
+    <Header title="Vue-Blog" subTitle="Testaufgabe mit Vue.js and JSONPlaceholder" />
+    <PostList postsPerPage="10" :actionPanel="false" pageTitle="All Posts" />
   </div>
 </template>
 
@@ -10,13 +10,10 @@ import Header from '@/components/Header.vue'
 import PostList from '@/components/PostList.vue'
 
 export default {
-  name: 'MainWrapper',
+  name: 'AllPPosts',
   components: {
     Header,
     PostList
-  },
-  props: {
-    msg: String
   }
 }
 </script>

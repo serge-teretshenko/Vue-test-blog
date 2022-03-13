@@ -1,5 +1,5 @@
 import MainPage from "@/pages/MainPage"
-import AllPosts from "@/pages/AllPostsPAge"
+import AllPosts from "@/pages/AllPostsPage"
 import Post from "@/pages/PostPage"
 import { createRouter, createWebHistory } from "vue-router";
 

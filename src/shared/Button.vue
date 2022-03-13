@@ -36,6 +36,11 @@ export default {
         color: #333333;
         background-color: transparent;
         height: 36px;
+
+        &:hover {
+            color: #ffffff;
+            background-color: #999999;
+        }
     }
     .edit-button {
         background-color: #0074cc;

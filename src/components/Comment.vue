@@ -15,7 +15,7 @@
 import CustomButton from '../shared/Button'
 
 export default {
-    name: 'PostList',
+    name: 'CommentComponent',
     props: {
         comment: {
             id: null,
@@ -27,15 +27,7 @@ export default {
     components: {
         CustomButton
     },
-    data() {
-       return {
-          
-       }
-    },
     methods: {
-        editComment(id) {
-            this.$emit('edit', id)
-        },
         deleteComment(id) {
            this.$emit('delete', id)
         }
@@ -44,9 +36,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    h3 {
-        font-size: 18px;
-    }
     .post-item {
         padding: 5px 0;
         border-bottom: 1px solid #999;
@@ -62,6 +51,7 @@ export default {
             background: #555;
             color: #fff;
             display: inline-block;
+            margin-right: 30px;
         }
 
         &__email {

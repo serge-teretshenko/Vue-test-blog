@@ -10,7 +10,7 @@
                 type="text" placeholder="Text" cols="4" />
         </div>
     
-        <custom-button @click.prevent="createPost" class='update-button'>Add Post</custom-button>
+        <custom-button @click.prevent="createPost" class='create-button'>Add Post</custom-button>
     </form>
 </template>
 
